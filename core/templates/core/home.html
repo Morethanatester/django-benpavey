@@ -1,0 +1,16 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to Ben Pavey's Website</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}"> <!-- Linking global CSS -->
+</head>
+<body>
+    <h1>Welcome to My Website!</h1>
+    <p>This is the homepage.</p>
+    <img src="{% static 'core/images/logo.png' %}" alt="Logo"> <!-- Linking app-specific image -->
+    <script src="{% static 'js/scripts.js' %}"></script> <!-- Linking global JS -->
+</body>
+</html>
