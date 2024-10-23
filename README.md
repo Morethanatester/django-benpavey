@@ -1,8 +1,8 @@
-Ben Pavey's Website - benpavey.com
+**Ben Pavey's Website - benpavey.com**
 
 Welcome to the repository for benpavey.com. This project is a personal website built using Django and hosted on Render. It includes a structured branching strategy for development and production environments, with automated workflows for deployment.
 
-Table of Contents
+**Table of Contents**
 
 Project Overview
 Tech Stack
@@ -15,7 +15,7 @@ Project Overview
 
 A brief description of the project. This site serves as a personal portfolio and will be used to showcase various projects and skills.
 
-Tech Stack
+**Tech Stack**
 
 Framework: Django
 Deployment: Render
@@ -28,30 +28,33 @@ The project uses a structured branching strategy:
 main: Production-ready branch.
 development: Active development and testing branch.
 Feature branches: Short-lived branches for new features and bug fixes, merged into development.
-Getting Started
+
+**Getting Started**
 
 Prerequisites
+
 Python 3.9+
 Git
+
+
 Setup
-Clone the repository:
-bash
-Copy code
-git clone https://github.com/YourGitHubUsername/django-benpavey.git
+
+Clone the repository: git clone https://github.com/YourGitHubUsername/django-benpavey.git
+
 cd django-benpavey
+
 Create and activate a virtual environment:
-bash
-Copy code
+
 python3 -m venv venv
 source venv/bin/activate
-Install the project dependencies:
-bash
-Copy code
-pip install -r requirements.txt
+
+Install the project dependencies: pip install -r requirements.txt
+
 Run the Django development server:
-bash
-Copy code
+
 python manage.py runserver
+
+
 Deployment
 
 The project is deployed to Render using separate environments for development and production.
