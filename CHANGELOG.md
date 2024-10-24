@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://www.github.com/Morethanatester/django-benpavey/compare/v1.0.0...v1.1.0) (2024-10-24)
+
+
+### Features
+
+* welcome to new webpage ([2276f12](https://www.github.com/Morethanatester/django-benpavey/commit/2276f124ab00dc602a871afac69b505088020f88))
+
 ## 1.0.0 (2024-10-24)
 
 
