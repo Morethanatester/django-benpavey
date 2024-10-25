@@ -40,7 +40,7 @@ Git
 
 Setup
 
-Clone the repository: git clone https://github.com/YourGitHubUsername/django-benpavey.git
+Clone the repository: git clone https://github.com/morethanatester/django-benpavey.git
 
 cd django-benpavey
 
