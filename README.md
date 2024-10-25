@@ -6,9 +6,6 @@ Welcome to the repository for benpavey.com. This project is a personal website b
 
 Project Overview
 
-NEW TEST MERGE
-
-
 Tech Stack
 Branching Strategy
 Getting Started
