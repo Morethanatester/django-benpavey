@@ -4,7 +4,7 @@ Welcome to the repository for benpavey.com. This project is a personal website b
 
 **Table of Contents**
 
-Project Overview
+Project Overview - new
 
 Tech Stack
 Branching Strategy
@@ -36,7 +36,6 @@ Prerequisites
 
 Python 3.9+
 Git
-
 
 Setup
 
