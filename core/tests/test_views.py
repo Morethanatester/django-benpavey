@@ -9,7 +9,7 @@ class ViewTests(TestCase):
     # Test that the home view returns a 200 status code and uses the correct template
     def test_home_view(self):
         response = self.client.get(reverse('home'))
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 201)
         self.assertTemplateUsed(response, 'core/home.html')
 
     # Test that the about view returns a 200 status code and uses the correct template
