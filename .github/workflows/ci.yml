@@ -13,6 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Fetch all branches and full history
     - name: Set up Python 3.9
       uses: actions/setup-python@v3
       with:
@@ -41,8 +43,8 @@ jobs:
       env:
         PAT: ${{ secrets.PAT }}
       run: |
-        git fetch origin
-        git checkout pre-prod || git checkout -b pre-prod
+        git fetch origin +refs/heads/*:refs/remotes/origin/*
+        git checkout pre-prod || git checkout -b pre-prod origin/pre-prod
         git merge dev --no-ff --allow-unrelated-histories -m "Merge from dev to pre-prod"
         git push https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }} pre-prod
 
@@ -52,8 +54,10 @@ jobs:
     needs: push-to-pre-prod
     if: ${{ github.ref == 'refs/heads/dev' && success() }}
     steps:
-    - name: Check out the code
-      uses: actions/checkout@v4
+    - name: Fetch All Remote Branches
+      run: git fetch origin +refs/heads/*:refs/remotes/origin/*
+    - name: Check out Main Branch
+      run: git checkout main || git checkout -b main origin/main
     - name: Set up Git
       run: |
         git config --global user.name '${{ secrets.GH_USERNAME }}'
@@ -62,7 +66,5 @@ jobs:
       env:
         PAT: ${{ secrets.PAT }}
       run: |
-        git fetch origin
-        git checkout main
         git merge pre-prod --no-ff --allow-unrelated-histories -m "Merge from pre-prod to main"
         git push https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }} main
