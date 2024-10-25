@@ -41,8 +41,10 @@ jobs:
       env:
         PAT: ${{ secrets.PAT }}
       run: |
-        git checkout -b pre-prod
-        git push https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }} pre-prod --force
+        git fetch origin
+        git checkout pre-prod || git checkout -b pre-prod
+        git merge dev --no-ff -m "Merge from dev to pre-prod"
+        git push https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }} pre-prod
 
   push-to-main:
     name: Push to Main
@@ -60,6 +62,7 @@ jobs:
       env:
         PAT: ${{ secrets.PAT }}
       run: |
+        git fetch origin
         git checkout main
-        git merge pre-prod
+        git merge pre-prod --no-ff -m "Merge from pre-prod to main"
         git push https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }} main

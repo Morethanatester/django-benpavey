@@ -33,6 +33,7 @@ ALLOWED_HOSTS = [
     'localhost:8000',
     '127.0.0.1:8000',
     'django-benpavey.onrender.com',
+    'django-benpavey-pre-prod.onrender.com',
     ]
 
 

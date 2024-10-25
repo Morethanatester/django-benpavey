@@ -4,7 +4,7 @@ Welcome to the repository for benpavey.com. This project is a personal website b
 
 **Table of Contents**
 
-Project Overview - new
+Project Overview
 
 Tech Stack
 Branching Strategy
