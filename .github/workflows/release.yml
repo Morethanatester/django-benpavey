@@ -21,3 +21,5 @@ jobs:
       with:
         release-type: simple
         token: ${{ secrets.PAT }}
+        fork: false
+        default-branch: main
