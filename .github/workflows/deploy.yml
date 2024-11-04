@@ -1,4 +1,4 @@
-name: Deploy and Create PR
+name: Deploy Pipeline
 
 on:
   workflow_run:
@@ -7,96 +7,31 @@ on:
       - completed
 
 jobs:
-  deploy-and-pr:
-    name: Deploy and Create PR
+  deploy:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/pre-prod' || github.ref == 'refs/heads/main') }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
     - uses: actions/checkout@v4
-    - name: Set up Python 3.9
-      uses: actions/setup-python@v3
-      with:
-        python-version: 3.9
-
-    - name: Deploy to Render (pre-prod)
-      if: github.ref == 'refs/heads/dev'
+    - name: Set up Git
       run: |
-        echo "Deploying to Render for pre-prod branch"
-        # Your pre-prod deployment script here
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-    - name: Create Pull Request to Pre-Prod
+    - name: Deploy to Pre-Prod
       if: github.ref == 'refs/heads/dev'
-      uses: peter-evans/create-pull-request@v3
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        commit-message: Merge dev to pre-prod
-        branch: dev
-        base: pre-prod
-        title: 'Merge dev to pre-prod'
-        body: 'Automated PR to merge changes from dev to pre-prod.'
-
-    - name: Deploy to Render (main)
-      if: github.ref == 'refs/heads/pre-prod'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        echo "Deploying to Render for main branch"
-        # Your main deployment script here
+        git checkout pre-prod
+        git merge dev --no-ff -m "Merging changes from dev to pre-prod"
+        git push origin pre-prod
 
-    - name: Create Pull Request to Main
+    - name: Deploy to Main
       if: github.ref == 'refs/heads/pre-prod'
-      uses: peter-evans/create-pull-request@v3
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        commit-message: Merge pre-prod to main
-        branch: pre-prod
-        base: main
-        title: 'Merge pre-prod to main'
-        body: 'Automated PR to merge changes from pre-prod to main.'
-
-
-jobs:
-  deploy-and-pr:
-    name: Deploy and Create PR
-    runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/pre-prod' || github.ref == 'refs/heads/main') }}
-
-    steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python 3.9
-      uses: actions/setup-python@v3
-      with:
-        python-version: 3.9
-
-    - name: Deploy to Render (pre-prod)
-      if: github.ref == 'refs/heads/dev'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        echo "Deploying to Render for pre-prod branch"
-        # Your pre-prod deployment script here
-
-    - name: Create Pull Request to Pre-Prod
-      if: github.ref == 'refs/heads/dev'
-      uses: peter-evans/create-pull-request@v3
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        commit-message: Merge dev to pre-prod
-        branch: dev
-        base: pre-prod
-        title: 'Merge dev to pre-prod'
-        body: 'Automated PR to merge changes from dev to pre-prod.'
-
-    - name: Deploy to Render (main)
-      if: github.ref == 'refs/heads/pre-prod'
-      run: |
-        echo "Deploying to Render for main branch"
-        # Your main deployment script here
-
-    - name: Create Pull Request to Main
-      if: github.ref == 'refs/heads/pre-prod'
-      uses: peter-evans/create-pull-request@v3
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        commit-message: Merge pre-prod to main
-        branch: pre-prod
-        base: main
-        title: 'Merge pre-prod to main'
-        body: 'Automated PR to merge changes from pre-prod to main.'
+        git checkout main
+        git merge pre-prod --no-ff -m "Merging changes from pre-prod to main"
+        git push origin main
