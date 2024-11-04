@@ -4,9 +4,15 @@ on:
   push:
     branches:
       - dev
+  pull_request:
+    branches:
+      - main
+    types: 
+      - closed
 
 jobs:
   test-and-validate:
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
 
     steps:
@@ -26,6 +32,7 @@ jobs:
         python manage.py test core.tests
 
   deploy-to-pre-prod:
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     needs: test-and-validate
 
@@ -52,6 +59,7 @@ jobs:
         git push origin pre-prod
 
   create-pr-to-main:
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     needs: deploy-to-pre-prod
 
@@ -69,9 +77,8 @@ jobs:
         body: 'This is an automated pull request to merge changes from pre-prod to main.'
 
   deploy-to-main:
+    if: github.event_name == 'pull_request' && github.event.pull_request.merged == true
     runs-on: ubuntu-latest
-    needs: create-pr-to-main
-    if: ${{ github.event.pull_request.merged == true }}  # This ensures deploy only after merge
 
     steps:
     - uses: actions/checkout@v4
