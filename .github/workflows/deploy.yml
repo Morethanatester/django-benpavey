@@ -40,18 +40,10 @@ jobs:
       run: |
         git fetch origin +refs/heads/*:refs/remotes/origin/*
 
-    # Option 1: Automatically resolve conflicts by preferring 'dev' changes
     - name: Merge Dev into Pre-Prod
       run: |
         git checkout pre-prod
         git merge dev --no-ff --allow-unrelated-histories -s recursive -X theirs -m "Merging changes from dev to pre-prod"
-      
-    # Option 2 (Alternative): Stop workflow on conflicts and notify for manual resolution
-    # Uncomment the below instead if you want the workflow to stop and notify
-    # - name: Merge Dev into Pre-Prod
-    #   run: |
-    #     git checkout pre-prod
-    #     git merge dev --no-ff --allow-unrelated-histories || exit 1
 
     - name: Push to Pre-Prod
       env:
@@ -85,19 +77,4 @@ jobs:
     - name: Set up Git
       run: |
         git config --global user.name "github-actions[bot]"
-        git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-    - name: Fetch All Branches
-      run: |
-        git fetch origin +refs/heads/*:refs/remotes/origin/*
-
-    - name: Merge Pre-Prod into Main
-      run: |
-        git checkout main
-        git merge pre-prod --no-ff --allow-unrelated-histories -s recursive -X theirs -m "Merging changes from pre-prod to main"
-
-    - name: Push to Main
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        git push origin main
+        git con
