@@ -1,4 +1,4 @@
-name: Test and Validate
+name: test-and-validate
 
 on: [push]
 
