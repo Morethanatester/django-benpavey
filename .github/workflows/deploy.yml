@@ -43,7 +43,7 @@ jobs:
     - name: Merge Dev into Pre-Prod
       run: |
         git checkout pre-prod
-        git merge dev --no-ff --allow-unrelated-histories -s recursive -X theirs -m "Merging changes from dev to pre-prod"
+        git merge origin/dev --no-ff --allow-unrelated-histories -s recursive -X theirs -m "Merging changes from dev to pre-prod"
 
     - name: Push to Pre-Prod
       env:
@@ -59,6 +59,7 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Create Pull Request to Main
+      if: ${{ github.ref == 'refs/heads/pre-prod' }}
       uses: peter-evans/create-pull-request@v3
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
