@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   test-and-lint:
-    name: Run Tests and Static Analysis
+    name: Run Tests
     runs-on: ubuntu-latest
 
     steps:

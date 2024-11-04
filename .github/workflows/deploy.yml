@@ -3,8 +3,8 @@ name: Deploy and Create PR
 on:
   workflow_run:
     workflows: [Test and Lint]
-    types:
-      - completed
+    status: success
+      
 
 jobs:
   deploy-and-pr:
