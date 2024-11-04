@@ -3,8 +3,7 @@ name: CI/CD Deployment Pipeline
 on:
   workflow_run:
     workflows: ["Test and Validate"]
-    types:
-      - completed
+
 
 jobs:
   deploy:
