@@ -64,6 +64,8 @@ jobs:
     needs: deploy-to-pre-prod
 
     steps:
+    - uses: actions/checkout@v4  # Ensure the repository is checked out
+
     - name: Create Pull Request to Main
       uses: peter-evans/create-pull-request@v3
       with:
