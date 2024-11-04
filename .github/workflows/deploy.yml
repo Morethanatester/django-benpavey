@@ -2,8 +2,11 @@ name: CI/CD Deployment Pipeline
 
 on:
   workflow_run:
-    workflows: ["Test and Validate"]
-
+    workflows: ["test-and-lint"]
+    types:
+      - completed
+      - requested
+      
 
 jobs:
   deploy:
