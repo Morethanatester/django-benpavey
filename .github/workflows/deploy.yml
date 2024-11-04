@@ -2,6 +2,7 @@ name: CI/CD Deployment Pipeline
 
 on:
   workflow_run:
+    workflows: ["Test and Lint"]  # Ensure this matches the name in test.yml
     types:
       - completed
 

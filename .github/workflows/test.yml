@@ -19,7 +19,6 @@ jobs:
 # add linting step here
 # add static analysis step here
 
-
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
