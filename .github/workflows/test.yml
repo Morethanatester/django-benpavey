@@ -1,12 +1,10 @@
 name: Test and Validate
 
-on:
-  push:
-    branches: [ "dev", "pre-prod", "main" ]
+on: [push]
 
 jobs:
   test-and-lint:
-    name: Run Tests
+    name: Run Tests and Static Analysis
     runs-on: ubuntu-latest
 
     steps:
@@ -15,9 +13,6 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: 3.9
-
-# add linting step here
-# add static analysis step here
 
     - name: Install dependencies
       run: |
