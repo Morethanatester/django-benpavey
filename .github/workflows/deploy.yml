@@ -2,8 +2,9 @@ name: Deploy and Create PR
 
 on:
   workflow_run:
-    workflows: [Test and Lint]
-    status: success
+    workflows: ["Test and Lint", "Django CI"]
+    types:
+      - completed
       
 
 jobs:
