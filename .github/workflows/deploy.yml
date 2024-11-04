@@ -58,6 +58,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Debug Info
+      run: |
+        echo "Creating pull request from pre-prod to main"
+
     - name: Create Pull Request to Main
       uses: peter-evans/create-pull-request@v3
       with:
