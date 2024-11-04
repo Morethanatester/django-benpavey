@@ -41,7 +41,7 @@ jobs:
     - name: Merge Dev into Pre-Prod
       run: |
         git checkout pre-prod
-        git merge dev --no-ff -m "Merging changes from dev to pre-prod"
+        git merge dev --no-ff --allow-unrelated-histories -m "Merging changes from dev to pre-prod"
     - name: Push to Pre-Prod
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -79,7 +79,7 @@ jobs:
     - name: Merge Pre-Prod into Main
       run: |
         git checkout main
-        git merge pre-prod --no-ff -m "Merging changes from pre-prod to main"
+        git merge pre-prod --no-ff --allow-unrelated-histories -m "Merging changes from pre-prod to main"
     - name: Push to Main
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
