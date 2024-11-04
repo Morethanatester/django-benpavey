@@ -14,3 +14,12 @@ jobs:
     steps:
     - name: Echo Success
       run: echo "Test and Validate workflow completed successfully!"
+    - name: Debug Info
+      run: |
+        echo "Workflow run event triggered"
+        echo "Event name: ${{ github.event_name }}"
+        echo "Workflow name: ${{ github.workflow }}"
+        echo "Action: ${{ github.action }}"
+        echo "Actor: ${{ github.actor }}"
+        echo "Ref: ${{ github.ref }}"
+        echo "SHA: ${{ github.sha }}"
