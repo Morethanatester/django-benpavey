@@ -1,11 +1,6 @@
 name: CI/CD Deployment Pipeline
 
-on:
-  workflow_run:
-    workflows: ["test-and-validate"]
-    types:
-      - completed
-      - requested
+on: [push]
       
 
 jobs:
