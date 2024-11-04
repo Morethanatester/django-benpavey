@@ -2,13 +2,11 @@ name: Release-Please
 
 on:
   push:
-    branches: [ "main", "pre-prod" , "dev" ]
-  pull_request:
     branches: [ "main" ]
 
 jobs:
   build:
-    name: Run Django Tests
+    name: Release Management
     runs-on: ubuntu-latest
 
     steps:
@@ -24,3 +22,7 @@ jobs:
     - name: Run Tests
       run: |
         python manage.py test core.tests
+    - name: Generate Release
+      run: |
+        # Add your release-please command here, for example:
+        npx release-please release

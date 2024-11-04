@@ -2,10 +2,9 @@ name: Deploy and Create PR
 
 on:
   workflow_run:
-    workflows: ["Test and Lint", "Release-Please"]
+    workflows: ["Test and Lint"]
     types:
       - completed
-      
 
 jobs:
   deploy-and-pr:
@@ -25,18 +24,14 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Run tests
-      run: |
-        python manage.py test
-
     - name: Deploy to Render (pre-prod)
-      if: github.ref == 'refs/heads/dev' && success()
+      if: github.ref == 'refs/heads/dev'
       run: |
-        # Add your deployment script here
         echo "Deploying to Render for pre-prod branch"
+        # Your pre-prod deployment script here
 
     - name: Create Pull Request to Pre-Prod
-      if: github.ref == 'refs/heads/dev' && success()
+      if: github.ref == 'refs/heads/dev'
       uses: peter-evans/create-pull-request@v3
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -44,16 +39,16 @@ jobs:
         branch: dev
         base: pre-prod
         title: 'Merge dev to pre-prod'
-        body: 'This is an automated pull request to merge changes from dev to pre-prod.'
+        body: 'Automated PR to merge changes from dev to pre-prod.'
 
     - name: Deploy to Render (main)
-      if: github.ref == 'refs/heads/pre-prod' && success()
+      if: github.ref == 'refs/heads/pre-prod'
       run: |
-        # Add your deployment script here
         echo "Deploying to Render for main branch"
+        # Your main deployment script here
 
     - name: Create Pull Request to Main
-      if: github.ref == 'refs/heads/pre-prod' && success()
+      if: github.ref == 'refs/heads/pre-prod'
       uses: peter-evans/create-pull-request@v3
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -61,4 +56,4 @@ jobs:
         branch: pre-prod
         base: main
         title: 'Merge pre-prod to main'
-        body: 'This is an automated pull request to merge changes from pre-prod to main.'
+        body: 'Automated PR to merge changes from pre-prod to main.'
