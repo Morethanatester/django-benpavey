@@ -1,4 +1,4 @@
-name: Deploy Pipeline
+name: CI/CD Deployment Pipeline
 
 on:
   workflow_run:
@@ -24,7 +24,6 @@ jobs:
     - name: Fetch All Branches
       run: |
         git fetch origin +refs/heads/*:refs/remotes/origin/*
-
     - name: Checkout and Update Pre-Prod
       if: github.ref == 'refs/heads/dev'
       env:
@@ -34,17 +33,16 @@ jobs:
         git remote set-url origin https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }}
         # Create or switch to pre-prod branch
         git checkout -B pre-prod origin/pre-prod
-        git merge dev --no-ff --allow-unrelated-histories -s recursive -X theirs -m "Merging changes from dev to pre-prod"
+        git merge dev --no-ff -s recursive -X theirs -m "Merging changes from dev to pre-prod"
         git push origin pre-prod
-
     - name: Deploy to Main
       if: github.ref == 'refs/heads/pre-prod'
       env:
-        PAT: ${{ secrets.PAT }}  # Use the PAT heree
+        PAT: ${{ secrets.PAT }}  # Use the PAT here
       run: |
         # Set up authentication with PAT
         git remote set-url origin https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }}
         # Create or switch to main branch
         git checkout -B main origin/main
-        git merge pre-prod --no-ff --allow-unrelated-histories -s recursive -X theirs -m "Merging changes from pre-prod to main"
+        git merge pre-prod --no-ff -s recursive -X theirs -m "Merging changes from pre-prod to main"
         git push origin main
