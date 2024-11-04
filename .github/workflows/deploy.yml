@@ -32,7 +32,7 @@ jobs:
       run: |
         # Create or switch to pre-prod branch
         git checkout -B pre-prod origin/pre-prod
-        git merge dev --no-ff -m "Merging changes from dev to pre-prod"
+        git merge dev --no-ff --allow-unrelated-histories -m "Merging changes from dev to pre-prod"
         git push origin pre-prod
 
     - name: Deploy to Main
@@ -42,5 +42,5 @@ jobs:
       run: |
         # Create or switch to main branch
         git checkout -B main origin/main
-        git merge pre-prod --no-ff -m "Merging changes from pre-prod to main"
+        git merge pre-prod --no-ff --allow-unrelated-histories -m "Merging changes from pre-prod to main"
         git push origin main
