@@ -40,7 +40,7 @@ jobs:
     - name: Deploy to Main
       if: github.ref == 'refs/heads/pre-prod'
       env:
-        PAT: ${{ secrets.PAT }}  # Use the PAT here
+        PAT: ${{ secrets.PAT }}  # Use the PAT heree
       run: |
         # Set up authentication with PAT
         git remote set-url origin https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }}
