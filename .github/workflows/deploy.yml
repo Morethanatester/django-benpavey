@@ -30,10 +30,11 @@ jobs:
       env:
         PAT: ${{ secrets.PAT }}  # Use the PAT here
       run: |
+        # Set up authentication with PAT
+        git remote set-url origin https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }}
         # Create or switch to pre-prod branch
         git checkout -B pre-prod origin/pre-prod
         git merge dev --no-ff --allow-unrelated-histories -s recursive -X theirs -m "Merging changes from dev to pre-prod"
-        git remote set-url origin https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }}
         git push origin pre-prod
 
     - name: Deploy to Main
@@ -41,8 +42,9 @@ jobs:
       env:
         PAT: ${{ secrets.PAT }}  # Use the PAT here
       run: |
+        # Set up authentication with PAT
+        git remote set-url origin https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }}
         # Create or switch to main branch
         git checkout -B main origin/main
         git merge pre-prod --no-ff --allow-unrelated-histories -s recursive -X theirs -m "Merging changes from pre-prod to main"
-        git remote set-url origin https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }}
         git push origin main
