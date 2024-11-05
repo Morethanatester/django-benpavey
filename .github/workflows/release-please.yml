@@ -1,0 +1,25 @@
+name: Release Please
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Run release-please
+        uses: google-github-actions/release-please-action@v3
+        with:
+          release-type: simple  # Define the type (simple is a good start)
+          # package-name: "benpavey.com"  # Optional: Customize as needed
+          create-release: true  # Automatically creates a release
