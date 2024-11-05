@@ -1,3 +1,20 @@
+
+## Development Workflow
+
+Before starting new changes, always ensure your `dev` and `pre-prod` branches are up-to-date with the latest changes from `main`:
+
+```sh
+git update-and-sync-branches
+
+This command will:
+
+Fetch all branches from the remote.
+Switch to the dev branch and pull the latest changes from dev, main, and pre-prod.
+Push any local changes to the remote dev branch.
+Switch to the pre-prod branch and pull the latest changes from pre-prod and main.
+Push any local changes to the remote pre-prod branch.
+Switch back to the dev branch.
+
 **Ben Pavey's Website - benpavey.com**
 
 Welcome to the repository for benpavey.com. This project is a personal website built using Django and hosted on Render. It includes a structured branching strategy for development and production environments, with automated workflows for deployment.
