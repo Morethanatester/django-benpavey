@@ -1,8 +1,9 @@
 name: Manage GitHub Branches
 
 on:
-  workflow_dispatch:
-
+    push:
+      branches: [ "main" ]
+  
 jobs:
   manage-branches:
     runs-on: ubuntu-latest
