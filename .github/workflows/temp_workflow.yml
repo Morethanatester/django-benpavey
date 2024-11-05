@@ -1,0 +1,7 @@
+name: Temporary Workflow
+on: [push]
+jobs:
+  temp-job:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'Temporary Workflow'
