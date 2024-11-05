@@ -69,7 +69,7 @@ jobs:
     - name: Create Pull Request to Main
       uses: peter-evans/create-pull-request@v3
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.GH_TOKEN }}
         commit-message: Merge pre-prod to main
         branch: pre-prod  # The branch you want to merge from
         base: main  # The branch you want to merge into
