@@ -35,20 +35,77 @@ This site serves as a personal portfolio to showcase various projects and skills
 
 ## Development Workflow
 
+## Making Changes Locally
+
 Before starting new changes, always ensure your `dev` and `pre-prod` branches are up-to-date with the latest changes from `main`:
 
 ```sh
-git update-and-sync-branches
+./tools/update-and-sync-branches.sh
 ```
 
 This command will:
 
 - Fetch all branches from the remote.
-- Switch to the dev branch and pull the latest changes from dev, main, and pre-prod.
-- Push any local changes to the remote dev branch.
-- Switch to the pre-prod branch and pull the latest changes from pre-prod and main.
-- Push any local changes to the remote pre-prod branch.
-- Switch back to the dev branch.
+- Switch to the `dev` branch and pull the latest changes from `dev`, `main`, and `pre-prod`.
+- Push any local changes to the remote `dev` branch.
+- Switch to the `pre-prod` branch and pull the latest changes from `pre-prod` and `main`.
+- Push any local changes to the remote `pre-prod` branch.
+- Switch back to the `dev` branch.
+
+### Create a New Branch
+
+To create a new branch, use the following command:
+
+```sh
+git checkout -b <feature-name>
+```
+
+Replace `<feature-name>` with a descriptive name for your branch.
+
+### Make Your Changes
+
+Make your changes in the new branch.
+
+### Commit Your Changes
+
+Commit your changes with a meaningful commit message following Conventional Commits:
+
+```sh
+git add .
+git commit -m "feat: add new feature"
+```
+
+### Commit Frequency
+
+Commit your changes frequently to keep your work manageable and to make it easier to track progress. Ideally, commit:
+
+- After completing a small, logical piece of work.
+- When you reach a significant milestone.
+- Before starting a new task or feature.
+- When you have made changes that you want to save and share with others.
+
+Frequent commits help in maintaining a clear project history and facilitate easier collaboration.
+
+### Push Your Changes
+
+Push your changes to the remote repository:
+
+```sh
+git push origin <feature-name>
+```
+
+Replace `<feature-name>` with the name of your branch.
+
+### Push to Dev
+
+To push your changes to the `dev` branch, use the following command:
+
+```sh
+git push origin <feature-name>
+```
+Replace `<feature-name>` with the name of your branch.
+
+Note: Approval is required for pull requests into the `main` branch, this is built into the CI/CD workflow
 
 ---
 
