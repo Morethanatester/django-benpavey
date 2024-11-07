@@ -1,3 +1,6 @@
+### Updated [update-and-sync-branches.sh](http://_vscodecontentref_/3) )
+
+```sh
 #!/bin/bash
 
 # Exit immediately if a command exits with a non-zero status
@@ -11,6 +14,12 @@ error_handler() {
 
 # Trap errors and call error_handler
 trap 'error_handler $LINENO' ERR
+
+# Check for unstaged changes
+if [[ -n $(git status -s) ]]; then
+    echo "You have unstaged changes. Please commit or stash them before running this script."
+    exit 1
+fi
 
 echo "Fetching all branches from the remote repository..."
 git fetch --all
