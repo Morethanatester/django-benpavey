@@ -77,6 +77,16 @@ We use Conventional Commits to define the release type based on commit messages.
 
 For breaking changes, append a `!` to the commit type (e.g., `feat!:`) or include `BREAKING CHANGE:` in the commit body. This triggers a major version update.
 
+### Release Triggers
+
+Commits that trigger a release:
+
+- **feat**: Triggers a minor version update.
+- **fix**: Triggers a patch version update.
+- **feat!** or **BREAKING CHANGE**: Triggers a major version update.
+
+Other commit types (docs, style, refactor, test, chore) do not trigger a release by themselves but are included in the release notes.
+
 ---
 
 ## Branch Structure
