@@ -20,6 +20,6 @@ jobs:
       - name: Run release-please
         uses: google-github-actions/release-please-action@v3
         with:
-          release-type: simple  # Define the type (simple is a good start)
-          # package-name: "benpavey.com"  # Optional: Customize as needed
-          create-release: true  # Automatically creates a release
+          release-type: simple       # Define the type (simple is a good start)
+          release-labels: release-please   # Label to trigger the release
+          token: ${{ secrets.GITHUB_TOKEN }} # Required for creating a release
