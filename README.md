@@ -38,7 +38,7 @@ This site serves as a personal portfolio to showcase various projects and skills
 Before starting new changes, always ensure your `dev` and `pre-prod` branches are up-to-date with the latest changes from `main`:
 
 ```sh
-git update-and-sync-branches
+./tools/update-and-sync-branches.sh
 ```
 
 This command will:
