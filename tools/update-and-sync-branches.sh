@@ -1,6 +1,3 @@
-### Updated [update-and-sync-branches.sh](http://_vscodecontentref_/3) )
-
-```sh
 #!/bin/bash
 
 # Exit immediately if a command exits with a non-zero status
