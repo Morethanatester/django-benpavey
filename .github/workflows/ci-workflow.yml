@@ -1,55 +1,103 @@
-name: CI Workflow
+name: CI/CD Pipeline
 
 on:
   push:
     branches:
-      - feature/*  # Runs on any feature branch
-      - dev
-      - pre-prod
-      - main
+      - 'feature/*'
+      - 'release/*'
+      - 'dev'
+      - 'pre-prod'
+      - 'main'
+  pull_request:
+    branches:
+      - 'feature/*'
+      - 'release/*'
+      - 'dev'
+      - 'pre-prod'
+      - 'main'
 
 jobs:
-  promote_to_dev:
+  test:
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/heads/feature/')
     steps:
+      # Step to checkout the code from the repository
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Step to set up Python environment
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v2
         with:
-          python-version: '3.9'
+          python-version: 3.9
 
+      # Step to install dependencies
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      # Step to run tests
       - name: Run tests
-        run: |
-          python manage.py test core.tests
+        run: python manage.py test core.tests
+
+  promote_to_dev:
+    runs-on: ubuntu-latest
+    needs: test
+    if: startsWith(github.ref, 'refs/heads/release/')
+    steps:
+      # Step to checkout the code from the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step to promote the code to Dev environment
+      - name: Promote to Dev
+        run: tools/promote.sh dev
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
   promote_to_preprod:
     runs-on: ubuntu-latest
     needs: promote_to_dev
     if: github.ref == 'refs/heads/dev'
     steps:
+      # Step to checkout the code from the repository
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Promote to Pre-prod Environment
+      # Step to set up Python environment
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      # Step to install dependencies
+      - name: Install dependencies
         run: |
-          echo "Promotion to Pre-prod environment initiated. Deploying the latest changes from the dev branch."
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Step to run tests
+      - name: Run tests
+        run: python manage.py test core.tests
+
+      # Step to promote the code to Pre-Prod environment
+      - name: Promote to Pre-Prod
+        run: tools/promote.sh pre-prod
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
   promote_to_main:
     runs-on: ubuntu-latest
     needs: promote_to_preprod
     if: github.ref == 'refs/heads/pre-prod'
     steps:
+      # Step to checkout the code from the repository
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Promote to Production Environment
-        run: |
-          echo "Promoting code to the Production environment. Deployment in progress..."
+      # Step to promote the code to Main environment
+      - name: Promote to Main
+        run: tools/promote.sh main
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
