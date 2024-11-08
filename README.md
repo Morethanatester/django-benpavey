@@ -53,11 +53,10 @@ This command will:
 - Switch back to the `dev` branch.
 
 ### Create a New Branch
-
-To create a new branch, use the following command:
+To create a new branch from the `main` branch, use the following command:
 
 ```sh
-git checkout -b <feature-name>
+git checkout -b <feature-name> main
 ```
 
 Replace `<feature-name>` with a descriptive name for your branch.
