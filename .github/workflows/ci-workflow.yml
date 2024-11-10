@@ -19,23 +19,19 @@ jobs:
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/heads/feature/')
     steps:
-      # Step to checkout the code from the repository
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step to set up Python environment
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
 
-      # Step to install dependencies
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Step to run tests
       - name: Run tests
         run: python manage.py test core.tests
 
@@ -44,15 +40,12 @@ jobs:
     needs: test
     if: startsWith(github.ref, 'refs/heads/feature/')
     steps:
-      # Step to checkout the code from the repository
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step to set execute permissions on the promotion script
       - name: Make promote.sh executable
         run: chmod +x tools/promote.sh
 
-      # Step to promote the code to Dev environment
       - name: Promote to Dev
         run: tools/promote.sh dev
         env:
@@ -65,31 +58,25 @@ jobs:
     needs: promote_to_dev
     if: github.ref == 'refs/heads/dev'
     steps:
-      # Step to checkout the code from the repository
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step to set up Python environment
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
 
-      # Step to install dependencies
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Step to run tests
       - name: Run tests
         run: python manage.py test core.tests
 
-      # Step to set execute permissions on the promotion script
       - name: Make promote.sh executable
         run: chmod +x tools/promote.sh
 
-      # Step to promote the code to Pre-Prod environment
       - name: Promote to Pre-Prod
         run: tools/promote.sh pre-prod
         env:
@@ -102,15 +89,15 @@ jobs:
     needs: promote_to_preprod
     if: github.ref == 'refs/heads/pre-prod'
     steps:
-      # Step to checkout the code from the repository
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step to set execute permissions on the promotion script
+      - name: Pull latest changes from main
+        run: git pull origin main
+
       - name: Make promote.sh executable
         run: chmod +x tools/promote.sh
 
-      # Step to promote the code to Main environment
       - name: Promote to Main
         run: tools/promote.sh main
         env:
