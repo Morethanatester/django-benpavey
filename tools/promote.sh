@@ -8,11 +8,8 @@ ENVIRONMENT=$1
 git config --global user.email "$GH_EMAIL"
 git config --global user.name "$GH_USERNAME"
 
-# Authenticate using GitHub token
-git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-
-# Ensure the working directory is clean
-if ! git diff --exit-code && git diff --cached --exit-code; then
+# Ensure the working directory is clean, ignoring permission changes
+if ! git diff --ignore-submodules=all --exit-code && git diff --cached --exit-code; then
   echo "Error: Unstaged changes detected. Ensure branches are up-to-date and clean."
   exit 1
 fi
