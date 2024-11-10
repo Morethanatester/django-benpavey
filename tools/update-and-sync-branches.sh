@@ -38,6 +38,15 @@ git pull origin main
 echo "Pushing local changes to the remote pre-prod branch..."
 git push origin pre-prod --force-with-lease
 
+echo "Switching to the main branch and pulling the latest changes..."
+git checkout main
+git pull origin main
+git pull origin dev
+git pull origin pre-prod
+
+echo "Pushing local changes to the remote main branch..."
+git push origin main --force-with-lease
+
 echo "Switching back to the dev branch..."
 git checkout dev
 
