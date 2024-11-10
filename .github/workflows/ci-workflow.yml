@@ -48,11 +48,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Step to set execute permissions on the promotion script
+      - name: Make promote.sh executable
+        run: chmod +x tools/promote.sh
+
       # Step to promote the code to Dev environment
       - name: Promote to Dev
         run: tools/promote.sh dev
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_EMAIL: ${{ secrets.GH_EMAIL }}
+          GH_USERNAME: ${{ secrets.GH_USERNAME }}
 
   promote_to_preprod:
     runs-on: ubuntu-latest
@@ -79,11 +85,17 @@ jobs:
       - name: Run tests
         run: python manage.py test core.tests
 
+      # Step to set execute permissions on the promotion script
+      - name: Make promote.sh executable
+        run: chmod +x tools/promote.sh
+
       # Step to promote the code to Pre-Prod environment
       - name: Promote to Pre-Prod
         run: tools/promote.sh pre-prod
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_EMAIL: ${{ secrets.GH_EMAIL }}
+          GH_USERNAME: ${{ secrets.GH_USERNAME }}
 
   promote_to_main:
     runs-on: ubuntu-latest
@@ -94,8 +106,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Step to set execute permissions on the promotion script
+      - name: Make promote.sh executable
+        run: chmod +x tools/promote.sh
+
       # Step to promote the code to Main environment
       - name: Promote to Main
         run: tools/promote.sh main
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_EMAIL: ${{ secrets.GH_EMAIL }}
+          GH_USERNAME: ${{ secrets.GH_USERNAME }}

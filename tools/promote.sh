@@ -4,8 +4,9 @@ set -e
 
 ENVIRONMENT=$1
 
-git config --global user.email "you@example.com"
-git config --global user.name "Your Name"
+# Use environment variables for GitHub credentials
+git config --global user.email "$GH_EMAIL"
+git config --global user.name "$GH_USERNAME"
 
 if [ "$ENVIRONMENT" == "dev" ]; then
   echo "Promoting code to the Dev environment. Deployment in progress..."
