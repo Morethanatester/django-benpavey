@@ -8,6 +8,9 @@ ENVIRONMENT=$1
 git config --global user.email "$GH_EMAIL"
 git config --global user.name "$GH_USERNAME"
 
+# Authenticate using GitHub token
+git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+
 # Ensure the working directory is clean
 if ! git diff --exit-code && git diff --cached --exit-code; then
   echo "Error: Unstaged changes detected. Ensure branches are up-to-date and clean."
@@ -16,30 +19,34 @@ fi
 
 # Promotion logic based on environment
 case "$ENVIRONMENT" in
-  "dev")
-    echo "Promoting code to the Dev environment..."
-    git fetch origin
+  "feature-to-dev")
+    echo "Promoting feature branch to the Dev environment..."
+    FEATURE_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+    git fetch origin dev
     git checkout dev
     git pull origin dev
-    git merge --no-ff --no-edit $(git rev-parse --abbrev-ref @{-1})
+    git merge --no-ff --no-edit "$FEATURE_BRANCH"
     git push origin dev
     ;;
+  
   "pre-prod")
     echo "Promoting code to the Pre-Prod environment..."
-    git fetch origin
+    git fetch origin pre-prod
     git checkout pre-prod
     git pull origin pre-prod
     git merge --no-ff --no-edit dev
     git push origin pre-prod
     ;;
+
   "main")
     echo "Promoting code to the Main environment..."
-    git fetch origin
+    git fetch origin main
     git checkout main
     git pull origin main
     git merge --no-ff --no-edit pre-prod
     git push origin main
     ;;
+  
   *)
     echo "Unknown environment: $ENVIRONMENT"
     exit 1
