@@ -92,9 +92,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Pull latest changes from main
-        run: git pull origin main
-
       - name: Make promote.sh executable
         run: chmod +x tools/promote.sh
 

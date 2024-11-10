@@ -16,21 +16,21 @@ if [ "$ENVIRONMENT" == "dev" ]; then
   git fetch origin
   git checkout dev || git checkout -b dev
   git pull origin dev
-  git merge --no-ff $(git rev-parse --abbrev-ref @{-1})
+  git merge --no-ff --allow-unrelated-histories $(git rev-parse --abbrev-ref @{-1})
   git push origin dev
 elif [ "$ENVIRONMENT" == "pre-prod" ]; then
   echo "Promoting code to the Pre-Prod environment. Deployment in progress..."
   git fetch origin
   git checkout pre-prod || git checkout -b pre-prod
   git pull origin pre-prod
-  git merge --no-ff dev
+  git merge --no-ff --allow-unrelated-histories dev
   git push origin pre-prod
 elif [ "$ENVIRONMENT" == "main" ]; then
   echo "Promoting code to the Main environment. Deployment in progress..."
   git fetch origin
   git checkout main
   git pull origin main
-  git merge --no-ff pre-prod
+  git merge --no-ff --allow-unrelated-histories pre-prod
   git push origin main
 else
   echo "Unknown environment: $ENVIRONMENT"
