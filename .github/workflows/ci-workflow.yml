@@ -4,14 +4,12 @@ on:
   push:
     branches:
       - 'feature/*'
-      - 'release/*'
       - 'dev'
       - 'pre-prod'
       - 'main'
   pull_request:
     branches:
       - 'feature/*'
-      - 'release/*'
       - 'dev'
       - 'pre-prod'
       - 'main'
@@ -44,7 +42,7 @@ jobs:
   promote_to_dev:
     runs-on: ubuntu-latest
     needs: test
-    if: startsWith(github.ref, 'refs/heads/release/')
+    if: startsWith(github.ref, 'refs/heads/feature/')
     steps:
       # Step to checkout the code from the repository
       - name: Checkout code
