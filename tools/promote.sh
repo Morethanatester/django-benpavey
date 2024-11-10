@@ -8,8 +8,11 @@ ENVIRONMENT=$1
 git config --global user.email "$GH_EMAIL"
 git config --global user.name "$GH_USERNAME"
 
-# Ensure the working directory is clean, ignoring permission changes
-if ! git diff --ignore-submodules=all --exit-code && git diff --cached --exit-code; then
+# Authenticate with GitHub token
+git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+
+# Ensure the working directory is clean
+if ! git diff --exit-code && git diff --cached --exit-code; then
   echo "Error: Unstaged changes detected. Ensure branches are up-to-date and clean."
   exit 1
 fi
@@ -22,7 +25,8 @@ case "$ENVIRONMENT" in
     git fetch origin dev
     git checkout dev
     git pull origin dev
-    git merge --no-ff --no-edit "$FEATURE_BRANCH"
+    # Use --allow-unrelated-histories to avoid merge issues
+    git merge --no-ff --no-edit --allow-unrelated-histories "$FEATURE_BRANCH"
     git push origin dev
     ;;
   
@@ -31,7 +35,7 @@ case "$ENVIRONMENT" in
     git fetch origin pre-prod
     git checkout pre-prod
     git pull origin pre-prod
-    git merge --no-ff --no-edit dev
+    git merge --no-ff --no-edit --allow-unrelated-histories dev
     git push origin pre-prod
     ;;
 
@@ -40,7 +44,7 @@ case "$ENVIRONMENT" in
     git fetch origin main
     git checkout main
     git pull origin main
-    git merge --no-ff --no-edit pre-prod
+    git merge --no-ff --no-edit --allow-unrelated-histories pre-prod
     git push origin main
     ;;
   

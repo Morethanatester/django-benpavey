@@ -3,20 +3,20 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - 'feature/*'     # Runs on any feature branch
-      - 'dev'           # Runs on dev branch
-      - 'pre-prod'      # Runs on pre-prod branch
-      - 'main'          # Runs on main branch
+      - 'feature/*'     # Trigger on feature branches
+      - 'dev'           # Trigger on dev branch
+      - 'pre-prod'      # Trigger on pre-prod branch
+      - 'main'          # Trigger on main branch
   pull_request:
     branches:
-      - 'feature/*'     # Runs on pull requests to any feature branch
-      - 'dev'           # Runs on pull requests to dev
-      - 'pre-prod'      # Runs on pull requests to pre-prod
-      - 'main'          # Runs on pull requests to main
+      - 'feature/*'
+      - 'dev'
+      - 'pre-prod'
+      - 'main'
 
 jobs:
   test:
-    # Run tests on feature branches to validate code before promotion
+    # Run tests on feature branches
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/heads/feature/')
     steps:
@@ -37,7 +37,7 @@ jobs:
         run: python manage.py test core.tests
 
   promote_to_dev:
-    # Promote a successful feature branch to dev
+    # Promote from feature branch to dev
     runs-on: ubuntu-latest
     needs: test
     if: startsWith(github.ref, 'refs/heads/feature/')
@@ -56,7 +56,7 @@ jobs:
           GH_USERNAME: ${{ secrets.GH_USERNAME }}
 
   promote_to_preprod:
-    # Promote dev to pre-prod after dev branch is updated
+    # Promote from dev to pre-prod
     runs-on: ubuntu-latest
     needs: promote_to_dev
     if: github.ref == 'refs/heads/dev'
@@ -75,7 +75,7 @@ jobs:
           GH_USERNAME: ${{ secrets.GH_USERNAME }}
 
   promote_to_main:
-    # Promote pre-prod to main for final production deployment
+    # Promote from pre-prod to main
     runs-on: ubuntu-latest
     needs: promote_to_preprod
     if: github.ref == 'refs/heads/pre-prod'
