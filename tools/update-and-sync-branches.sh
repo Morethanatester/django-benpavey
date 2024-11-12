@@ -23,26 +23,23 @@ git fetch --all
 
 echo "Switching to the dev branch and pulling the latest changes from main..."
 git checkout dev
-git pull origin dev
-git pull origin main
-git rebase origin/dev
+git pull --rebase origin dev
+git pull --rebase origin main
 
 echo "Pushing local changes to the remote dev branch..."
 git push origin dev --force-with-lease
 
 echo "Switching to the pre-prod branch and pulling the latest changes from main..."
 git checkout pre-prod
-git pull origin pre-prod
-git pull origin main
-git rebase origin/pre-prod
+git pull --rebase origin pre-prod
+git pull --rebase origin main
 
 echo "Pushing local changes to the remote pre-prod branch..."
 git push origin pre-prod --force-with-lease
 
 echo "Switching to the main branch and pulling the latest changes..."
 git checkout main
-git pull origin main
-git rebase origin/main
+git pull --rebase origin main
 
 echo "Pushing local changes to the remote main branch..."
 git push origin main --force-with-lease
