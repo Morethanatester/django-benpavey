@@ -3,10 +3,10 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - 'feature/*'     # Trigger on feature branches
-      - 'dev'           # Trigger on dev branch
-      - 'pre-prod'      # Trigger on pre-prod branch
-      - 'main'          # Trigger on main branch
+      - 'feature/*'
+      - 'dev'
+      - 'pre-prod'
+      - 'main'
   pull_request:
     branches:
       - 'feature/*'
@@ -15,8 +15,8 @@ on:
       - 'main'
 
 jobs:
+  # Job to run tests on feature branches
   test:
-    # Run tests on feature branches
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/heads/feature/')
     steps:
@@ -36,8 +36,8 @@ jobs:
       - name: Run tests
         run: python manage.py test core.tests
 
+  # Promote feature branch to dev
   promote_to_dev:
-    # Promote from feature branch to dev
     runs-on: ubuntu-latest
     needs: test
     if: startsWith(github.ref, 'refs/heads/feature/')
@@ -55,8 +55,8 @@ jobs:
           GH_EMAIL: ${{ secrets.GH_EMAIL }}
           GH_USERNAME: ${{ secrets.GH_USERNAME }}
 
+  # Promote dev to pre-prod
   promote_to_preprod:
-    # Promote from dev to pre-prod
     runs-on: ubuntu-latest
     needs: promote_to_dev
     if: github.ref == 'refs/heads/dev'
@@ -74,8 +74,8 @@ jobs:
           GH_EMAIL: ${{ secrets.GH_EMAIL }}
           GH_USERNAME: ${{ secrets.GH_USERNAME }}
 
+  # Promote pre-prod to main
   promote_to_main:
-    # Promote from pre-prod to main
     runs-on: ubuntu-latest
     needs: promote_to_preprod
     if: github.ref == 'refs/heads/pre-prod'
@@ -92,3 +92,21 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_EMAIL: ${{ secrets.GH_EMAIL }}
           GH_USERNAME: ${{ secrets.GH_USERNAME }}
+
+  # Sync dev with main after promotion cycle
+  sync_dev_with_main:
+    runs-on: ubuntu-latest
+    needs: promote_to_main
+    if: github.ref == 'refs/heads/main'  # Only runs when changes are promoted to main
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Rebase dev onto main
+        run: |
+          git fetch origin
+          git checkout dev
+          git rebase origin/main  # Rebase dev onto main
+          git push origin dev --force-with-lease  # Push rebase changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
