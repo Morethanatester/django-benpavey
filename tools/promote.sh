@@ -25,8 +25,9 @@ case "$ENVIRONMENT" in
     git fetch origin dev
     git checkout dev
     git pull origin dev
-    # Use --allow-unrelated-histories to avoid merge issues
-    git merge --no-ff --no-edit --allow-unrelated-histories "$FEATURE_BRANCH"
+    # Squash merge to consolidate feature branch changes
+    git merge --squash "$FEATURE_BRANCH"
+    git commit -m "Promote feature branch to dev with squashed changes"
     git push origin dev
     ;;
   
@@ -35,7 +36,9 @@ case "$ENVIRONMENT" in
     git fetch origin pre-prod
     git checkout pre-prod
     git pull origin pre-prod
-    git merge --no-ff --no-edit --allow-unrelated-histories dev
+    # Squash merge to consolidate dev branch changes
+    git merge --squash dev
+    git commit -m "Promote dev to pre-prod with squashed changes"
     git push origin pre-prod
     ;;
 
@@ -44,7 +47,9 @@ case "$ENVIRONMENT" in
     git fetch origin main
     git checkout main
     git pull origin main
-    git merge --no-ff --no-edit --allow-unrelated-histories pre-prod
+    # Squash merge to consolidate pre-prod branch changes
+    git merge --squash pre-prod
+    git commit -m "Promote pre-prod to main with squashed changes"
     git push origin main
     ;;
   
