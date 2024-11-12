@@ -25,10 +25,9 @@ case "$ENVIRONMENT" in
     git fetch origin dev
     git checkout dev
     git pull origin dev
-    # Squash merge to consolidate feature branch changes
-    git merge --squash "$FEATURE_BRANCH"
-    git commit -m "Promote feature branch to dev with squashed changes"
-    git push origin dev
+    # Rebase onto dev using base-branch as the ancestor
+    git rebase base-branch "$FEATURE_BRANCH"
+    git push origin dev --force-with-lease
     ;;
   
   "pre-prod")
@@ -36,10 +35,8 @@ case "$ENVIRONMENT" in
     git fetch origin pre-prod
     git checkout pre-prod
     git pull origin pre-prod
-    # Squash merge to consolidate dev branch changes
-    git merge --squash dev
-    git commit -m "Promote dev to pre-prod with squashed changes"
-    git push origin pre-prod
+    git rebase base-branch dev
+    git push origin pre-prod --force-with-lease
     ;;
 
   "main")
@@ -47,10 +44,8 @@ case "$ENVIRONMENT" in
     git fetch origin main
     git checkout main
     git pull origin main
-    # Squash merge to consolidate pre-prod branch changes
-    git merge --squash pre-prod
-    git commit -m "Promote pre-prod to main with squashed changes"
-    git push origin main
+    git rebase base-branch pre-prod
+    git push origin main --force-with-lease
     ;;
   
   *)
