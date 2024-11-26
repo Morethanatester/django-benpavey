@@ -12,6 +12,9 @@ jobs:
   # Job to run tests
   test:
     runs-on: ubuntu-latest
+    env:
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      DEBUG: 'True'
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
