@@ -65,6 +65,24 @@ Replace `<feature-name>` with a descriptive name for your branch.
 
 Make your changes in the new branch.
 
+
+### Pre-commit Hook
+
+To prevent accidental commits to the `main` branch, a pre-commit hook has been set up. This hook will block any commit attempts to the `main` branch directly. 
+
+To set up the pre-commit hook, ensure the following script is in the `.git/hooks/pre-commit` file and is executable:
+
+```sh
+#!/bin/sh
+
+branch_name=$(git symbolic-ref --short HEAD)
+
+if [ "$branch_name" = "main" ]; then
+  echo "You cannot commit directly to the main branch."
+  exit 1
+fi
+
+
 ### Commit Your Changes
 
 Commit your changes with a meaningful commit message following Conventional Commits:
