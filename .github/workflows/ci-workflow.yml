@@ -80,7 +80,7 @@ jobs:
           python manage.py test core.tests --junitxml=core/tests/test-results/results.xml
 
       - name: Upload test results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: test-results
           path: core/tests/test-results
