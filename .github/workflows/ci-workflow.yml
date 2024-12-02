@@ -32,7 +32,6 @@ jobs:
       - name: Run flake8
         run: flake8 .
 
-
   # Job to run unit tests
   test:
     runs-on: ubuntu-latest
