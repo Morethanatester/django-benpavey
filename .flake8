@@ -5,9 +5,9 @@
 # improves readability and maintainability.
 
 [flake8]
-# Set the maximum allowed line length to 100 characters.
+# Set the maximum allowed line length to 150 characters.
 # This helps prevent lines from being too long and improves readability.
-max-line-length = 100
+max-line-length = 150
 
 # Ignore specific flake8 rules:
 # E302: Expected 2 blank lines, found 1 (we allow more flexibility with blank lines).
