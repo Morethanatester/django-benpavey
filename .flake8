@@ -1,0 +1,19 @@
+# .flake8
+# This configuration file is used to customize the behavior of flake8,
+# a tool for checking the style and quality of Python code.
+# It helps ensure that the codebase adheres to a consistent style and
+# improves readability and maintainability.
+
+[flake8]
+# Set the maximum allowed line length to 150 characters.
+# This helps prevent lines from being too long and improves readability.
+max-line-length = 150
+
+# Ignore specific flake8 rules:
+# E302: Expected 2 blank lines, found 1 (we allow more flexibility with blank lines).
+# E303: Too many blank lines (we allow more flexibility with blank lines).
+# E261: At least two spaces before inline comment (we allow more flexibility with comments).
+# W292: No newline at end of file (we don't enforce this rule).
+# W291: Trailing whitespace (we don't enforce this rule).
+# F401: Imported but unused (we allow unused imports for now).
+ignore = E302, E303, E261, W292, W291, F401
