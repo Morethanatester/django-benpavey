@@ -75,15 +75,15 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run unit tests
-        run: |
-          mkdir -p core/tests/test-results
-          python manage.py test core.tests --junitxml=core/tests/test-results/results.xml
+        run: python manage.py test core.tests
 
-      - name: Upload test results
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-results
-          path: core/tests/test-results
+      # Skeleton step for uploading test results
+      # Uncomment and configure the following steps if you want to upload test results as artifacts
+      # - name: Upload test results
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: test-results
+      #     path: core/tests/test-results
 
   # Job to deploy to development environment
   deploy-dev:
@@ -94,11 +94,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Download test results
-        uses: actions/download-artifact@v2
-        with:
-          name: test-results
-          path: core/tests/test-results
+      # Skeleton step for downloading test results
+      # Uncomment and configure the following steps if you want to download test results as artifacts
+      # - name: Download test results
+      #   uses: actions/download-artifact@v3
+      #   with:
+      #     name: test-results
+      #     path: core/tests/test-results
 
       # Deploy via Render Deploy Hook
       - name: Trigger Render Deploy Hook (Development)
@@ -125,11 +127,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Download test results
-        uses: actions/download-artifact@v2
-        with:
-          name: test-results
-          path: core/tests/test-results
+      # Skeleton step for downloading test results
+      # Uncomment and configure the following steps if you want to download test results as artifacts
+      # - name: Download test results
+      #   uses: actions/download-artifact@v3
+      #   with:
+      #     name: test-results
+      #     path: core/tests/test-results
 
       # Deploy via Render Deploy Hook
       - name: Trigger Render Deploy Hook (Production)
