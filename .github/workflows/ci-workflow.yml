@@ -114,7 +114,7 @@ jobs:
   integration-test:
     runs-on: ubuntu-latest
     needs: deploy-dev
-    if: github.ref == 'refs/heads/development' || (github.event_name == 'pull_request' && github.base_ref == 'development')
+    if: github.ref == 'refs/heads/development' || github.ref == 'refs/heads/main' || (github.event_name == 'pull_request' && (github.base_ref == 'development' || github.base_ref == 'main'))
     steps:
       - name: Run integration tests
         run: echo 'Integration tests complete'
