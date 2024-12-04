@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/Morethanatester/django-benpavey/compare/v1.1.1...v1.2.0) (2024-12-04)
+
+
+### Features
+
+* simplify ci-workflow and create cd stage/cd prod workflows ([aca89ce](https://github.com/Morethanatester/django-benpavey/commit/aca89ce3f7f53e52298e798f502c39c6e9acab66))
+
 ## [1.1.1](https://github.com/Morethanatester/django-benpavey/compare/v1.1.0...v1.1.1) (2024-11-05)
 
 
