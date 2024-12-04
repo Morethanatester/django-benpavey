@@ -33,6 +33,12 @@ jobs:
           - name: Checkout code
             uses: actions/checkout@v3
 
+          - name: Debug Context
+            run: |
+              echo "Workflow conclusion: ${{ github.event.workflow_run.conclusion }}"
+              echo "Head branch: ${{ github.event.workflow_run.head_branch }}"
+              echo "Event: ${{ github.event.workflow_run.event }}"
+
           # Skeleton step for downloading test results
           
           # Uncomment and configure the following steps if you want to download test results as artifacts
@@ -41,7 +47,6 @@ jobs:
           #   with:
           #     name: test-results
           #     path: core/tests/test-results
-
 
           # Deploy via Render Deploy Hook
           - name: Trigger Render Deploy Hook (Staging)
