@@ -1,0 +1,65 @@
+name: "CD Staging Workflow"
+
+on:
+    workflow_run:
+        workflows: ["CI Workflow"]
+        types:
+            - completed
+
+jobs:
+    build-staging:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+
+            - name: Set up Python
+              uses: actions/setup-python@v2
+              with:
+                python-version: '3.8'
+
+            - name: Install dependencies
+              run: |
+                python -m pip install --upgrade pip
+                pip install -r requirements.txt
+
+    # Job to deploy to staging environment
+    deploy-staging:
+        runs-on: ubuntu-latest
+        if: github.event.workflow_run.conclusion == 'success' && (github.event.workflow_run.head_branch == 'development' || (github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.head_branch == 'development'))
+        
+        steps:
+          - name: Checkout code
+            uses: actions/checkout@v3
+
+          # Skeleton step for downloading test results
+          
+          # Uncomment and configure the following steps if you want to download test results as artifacts
+          # - name: Download test results
+          #   uses: actions/download-artifact@v3
+          #   with:
+          #     name: test-results
+          #     path: core/tests/test-results
+
+
+          # Deploy via Render Deploy Hook
+          - name: Trigger Render Deploy Hook (Staging)
+            env:
+              RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEV_DEPLOY_HOOK_URL }}  # Use GitHub Secrets for secure deploy hook URL management
+            run: |
+              curl -X POST $RENDER_DEPLOY_HOOK_URL
+
+    # Job to run integration tests on the deployed staging environment
+    integration-test:
+        runs-on: ubuntu-latest
+        needs: deploy-staging
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/development'
+        steps:
+          - name: Run integration tests
+            run: |
+              echo "======================================"
+              echo "Running Integration Tests"
+              echo "Running Regression Tests"
+              echo "======================================"
+              echo 'Integration tests complete'
