@@ -1,15 +1,13 @@
 name: CD Staging Workflow
 
 on:
-    workflow_run:
-        workflows: CI Workflow
-        types:
-            - completed
+  push:
+    branches:
+      - development
 
 jobs:
     build-staging:
         # only run this job if the CI workflow run was successful and the head branch is development
-        if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'development' }}
         runs-on: ubuntu-latest
 
         steps:
@@ -30,16 +28,9 @@ jobs:
     deploy-staging:
         runs-on: ubuntu-latest
         needs: build-staging
-        if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'development' }}        
         steps:
           - name: Checkout code
             uses: actions/checkout@v3
-
-          - name: Debug Context
-            run: |
-              echo "Workflow conclusion: ${{ github.event.workflow_run.conclusion }}"
-              echo "Head branch: ${{ github.event.workflow_run.head_branch }}"
-              echo "Event: ${{ github.event.workflow_run.event }}"
 
           # Skeleton step for downloading test results
           
