@@ -1,4 +1,4 @@
-name: "CD Production Pipeline"
+name: CD Production Pipeline
 
 # This CD workflow triggers on manual workflow dispatch.
 
