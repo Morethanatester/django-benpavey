@@ -1,13 +1,15 @@
-name: "CD Staging Workflow"
+name: CD Staging Workflow
 
 on:
     workflow_run:
-        workflows: ["CI Workflow"]
+        workflows: CI Workflow
         types:
             - completed
 
 jobs:
     build-staging:
+        # only run this job if the CI workflow run was successful and the head branch is development
+        if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'development' }}
         runs-on: ubuntu-latest
 
         steps:
@@ -27,8 +29,8 @@ jobs:
     # Job to deploy to staging environment
     deploy-staging:
         runs-on: ubuntu-latest
-        if: github.event.workflow_run.conclusion == 'success' && (github.event.workflow_run.head_branch == 'development' || (github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.head_branch == 'development'))
-        
+        needs: build-staging
+        if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'development' }}        
         steps:
           - name: Checkout code
             uses: actions/checkout@v3
