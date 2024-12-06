@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - development
+  pull_request:
+    branches:
+      - development
 
 jobs:
     build-staging:
@@ -64,3 +67,21 @@ jobs:
               echo "Running Regression Tests"
               echo "======================================"
               echo 'Integration tests complete'
+
+      # Job to auto-delete feature branches
+    auto-delete-feature-branch:
+        needs: integration-test
+        if: ${{ github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'feature/') }}
+        runs-on: ubuntu-latest
+        steps:
+          - name: Delete Feature Branch
+            env:
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            run: |
+              branch=${{ github.event.pull_request.head.ref }}
+              repo=${{ github.repository }}
+              echo "Deleting branch $branch from $repo..."
+              curl -X DELETE \
+                -H "Authorization: token $GITHUB_TOKEN" \
+                -H "Accept: application/vnd.github.v3+json" \
+                https://api.github.com/repos/$repo/git/refs/heads/$branch
