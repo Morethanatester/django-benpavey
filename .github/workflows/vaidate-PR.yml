@@ -1,16 +1,12 @@
 name: Restrict PRs to Main and Validate Commits
 
 # Summary:
-# This workflow enforces certain rules on pull requests to the main branch:
-# 1. Check PR Source Branch:
-#    - Disallows direct PRs from feature/* branches to main.
-#    - Allows PRs from dev* or development branches to main.
-#    - Disallows PRs from any other branches to main.
-# 2. Validate Commit Messages:
-#    - Ensures that all commit messages follow the conventional commit format.
-#    - Valid commit types include fix, feat, chore, docs, style, refactor, test, ci, and release.
-# 3. Validate Release Workflow Conventions:
-#    - If the PR is from a release/* branch, additional checks related to the release workflow can be added.
+# This workflow enforces certain rules on pull requests:
+# 1. Disallow direct PRs from feature/* branches to main.
+# 2. Allow PRs from dev* or development branches to main.
+# 3. Allow PRs to the development branch.
+# 4. Validate commit messages follow the conventional commit format.
+# 5. Validate release workflow conventions for release/* branches.
 
 on:
   pull_request:
@@ -26,23 +22,39 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Check the source branch
+      # Check PR Source Branch
       - name: Check PR Source Branch
         id: branch-check
         run: |
           echo "Validating PR source branch..."
           SOURCE_BRANCH=${{ github.event.pull_request.head.ref }}
-          if [[ "$SOURCE_BRANCH" == feature/* ]]; then
+          TARGET_BRANCH=${{ github.event.pull_request.base.ref }}
+          
+          echo "Source branch: $SOURCE_BRANCH"
+          echo "Target branch: $TARGET_BRANCH"
+          
+          # Allow PRs to development
+          if [[ "$TARGET_BRANCH" == "development" ]]; then
+            echo "PR to development is allowed."
+            exit 0
+          fi
+          
+          # Block PRs to main from feature/*
+          if [[ "$TARGET_BRANCH" == "main" && "$SOURCE_BRANCH" == feature/* ]]; then
             echo "Direct PRs from feature branches to main are not allowed."
             exit 1
-          elif [[ "$SOURCE_BRANCH" == dev* || "$SOURCE_BRANCH" == development ]]; then
+          fi
+          
+          # Allow PRs to main from development
+          if [[ "$TARGET_BRANCH" == "main" && ( "$SOURCE_BRANCH" == dev* || "$SOURCE_BRANCH" == development ) ]]; then
             echo "PR from development branch to main is allowed."
-          else
-            echo "PR from branch $SOURCE_BRANCH to main is not allowed."
-            exit 1
+            exit 0
           fi
 
-      # Validate commit messages
+          echo "PR from branch $SOURCE_BRANCH to $TARGET_BRANCH is not allowed."
+          exit 1
+
+      # Validate Commit Messages
       - name: Validate Commit Messages
         id: commit-check
         run: |
@@ -67,13 +79,13 @@ jobs:
             echo "All commit messages are valid."
           fi
 
-      # Ensure compliance with release workflow conventions
+      # Ensure Compliance with Release Workflow Conventions
       - name: Validate Release Workflow Conventions
-        if: ${{ steps.branch-check.outputs.result == 'success' && steps.commit-check.outputs.result == 'success' }}
+        if: ${{ steps.branch-check.outcome == 'success' && steps.commit-check.outcome == 'success' }}
         run: |
           echo "Checking release workflow conventions..."
           if [[ "$SOURCE_BRANCH" == release/* ]]; then
             echo "PR is part of the release workflow. Validating..."
-            # Add additional checks for release workflow here, e.g., checking tags, etc.
+            # Add additional checks for release workflow here
           else
             echo "This is not a release branch. Skipping release workflow validation."
