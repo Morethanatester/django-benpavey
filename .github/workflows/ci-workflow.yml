@@ -1,4 +1,4 @@
-name: CD Production Pipeline
+name: CI Workflow
 
 # Summary:
 # This workflow is triggered on push to the main branch.
