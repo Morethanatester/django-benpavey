@@ -1,16 +1,16 @@
 name: Restrict PRs to Main and Validate Commits
 
 # Summary:
-      # This workflow enforces certain rules on pull requests to the main branch:
-      # 1. Check PR Source Branch:
-      #    - Disallows direct PRs from feature/* branches to main.
-      #    - Allows PRs from dev* or development branches to main.
-      #    - Disallows PRs from any other branches to main.
-      # 2. Validate Commit Messages:
-      #    - Ensures that all commit messages follow the conventional commit format.
-      #    - Valid commit types include fix, feat, chore, docs, style, refactor, test, ci, and release.
-      # 3. Validate Release Workflow Conventions:
-      #    - If the PR is from a release/* branch, additional checks related to the release workflow can be added.
+# This workflow enforces certain rules on pull requests to the main branch:
+# 1. Check PR Source Branch:
+#    - Disallows direct PRs from feature/* branches to main.
+#    - Allows PRs from dev* or development branches to main.
+#    - Disallows PRs from any other branches to main.
+# 2. Validate Commit Messages:
+#    - Ensures that all commit messages follow the conventional commit format.
+#    - Valid commit types include fix, feat, chore, docs, style, refactor, test, ci, and release.
+# 3. Validate Release Workflow Conventions:
+#    - If the PR is from a release/* branch, additional checks related to the release workflow can be added.
 
 on:
   pull_request:
@@ -21,6 +21,10 @@ jobs:
   validate-pr:
     runs-on: ubuntu-latest
     steps:
+      # Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       # Check the source branch
       - name: Check PR Source Branch
         id: branch-check
@@ -72,4 +76,3 @@ jobs:
             # Add additional checks for release workflow here, e.g., checking tags, etc.
           else
             echo "This is not a release branch. Skipping release workflow validation."
-          fi
