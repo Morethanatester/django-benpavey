@@ -17,6 +17,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:  # Add this to manually trigger the workflow for testing
 
   
 jobs:
