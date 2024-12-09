@@ -14,10 +14,12 @@ name: CD Production Pipeline
 #    - Triggers a deployment via a Render Deploy Hook using a secure URL stored in GitHub Secrets.
 
 on:
-  push:
+
+  pull_request:
     branches:
       - main
       - development
+
 
 jobs:
   build:
