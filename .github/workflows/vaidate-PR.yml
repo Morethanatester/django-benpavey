@@ -79,13 +79,14 @@ jobs:
             echo "All commit messages are valid."
           fi
 
-      # Ensure Compliance with Release Workflow Conventions
+      # Ensure compliance with release workflow conventions
       - name: Validate Release Workflow Conventions
-        if: ${{ steps.branch-check.outcome == 'success' && steps.commit-check.outcome == 'success' }}
+        if: ${{ steps.branch-check.outputs.result == 'success' && steps.commit-check.outputs.result == 'success' }}
         run: |
           echo "Checking release workflow conventions..."
           if [[ "$SOURCE_BRANCH" == release/* ]]; then
             echo "PR is part of the release workflow. Validating..."
-            # Add additional checks for release workflow here
+            # Add additional checks for release workflow here, e.g., checking tags, etc.
           else
             echo "This is not a release branch. Skipping release workflow validation."
+          fi
