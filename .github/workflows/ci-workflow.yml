@@ -1,5 +1,33 @@
 name: CI Workflow
 
+# Summary:
+# This workflow is triggered on pull requests to the main and development branches.
+# It consists of four jobs:
+# 1. Lint:
+#    - Checks out the code.
+#    - Sets up Python 3.9.
+#    - Installs dependencies.
+#    - Runs flake8 to check code style and formatting.
+# 2. Security Scan:
+#    - Runs only if the lint job succeeds.
+#    - Checks out the code.
+#    - Sets up Python 3.9.
+#    - Installs dependencies.
+#    - Runs Bandit for security scanning.
+# 3. Build:
+#    - Runs only if the security scan job succeeds.
+#    - Checks out the code.
+#    - Sets up Python 3.9.
+#    - Installs dependencies.
+#    - Builds the project.
+# 4. Test:
+#    - Runs only if the lint, security scan, and build jobs succeed.
+#    - Checks out the code.
+#    - Sets up Python 3.9.
+#    - Installs dependencies.
+#    - Runs unit tests.
+#    - Optionally uploads test results as artifacts.
+
 on:
 
   pull_request:
