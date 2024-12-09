@@ -1,5 +1,13 @@
 name: Release Please
 
+# Summary:
+# This workflow is triggered on push to the main branch.
+# It consists of one job:
+# 1. Release:
+#    - Checks out the code.
+#    - Sets up Node.js.
+#    - Runs the release-please action to create a release.
+
 on:
   push:
     branches:

@@ -1,5 +1,12 @@
 name: Auto Delete Feature Branch
 
+# Summary:
+# This workflow is triggered when a pull request is closed.
+# It consists of one job:
+# 1. Delete Branch:
+#    - Runs only if the pull request is merged and the branch name starts with 'feature/'.
+#    - Deletes the feature branch from the repository.
+
 on:
   pull_request:
     types:
