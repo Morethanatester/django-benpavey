@@ -1,0 +1,78 @@
+name: Restrict PRs to Main and Validate Commits
+
+# Summary:
+# This workflow enforces certain rules on pull requests to the main branch:
+# 1. Check PR Source Branch:
+#    - Disallows direct PRs from feature/* branches to main.
+#    - Allows PRs from dev* or development branches to main.
+#    - Disallows PRs from any other branches to main.
+# 2. Validate Commit Messages:
+#    - Ensures that all commit messages follow the conventional commit format.
+#    - Valid commit types include fix, feat, chore, docs, style, refactor, test, ci, and release.
+# 3. Validate Release Workflow Conventions:
+#    - If the PR is from a release/* branch, additional checks related to the release workflow can be added.
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate-pr:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Check the source branch
+      - name: Check PR Source Branch
+        id: branch-check
+        run: |
+          echo "Validating PR source branch..."
+          SOURCE_BRANCH=${{ github.event.pull_request.head.ref }}
+          if [[ "$SOURCE_BRANCH" == feature/* ]]; then
+            echo "Direct PRs from feature branches to main are not allowed."
+            exit 1
+          elif [[ "$SOURCE_BRANCH" == dev* || "$SOURCE_BRANCH" == development ]]; then
+            echo "PR from development branch to main is allowed."
+          else
+            echo "PR from branch $SOURCE_BRANCH to main is not allowed."
+            exit 1
+          fi
+
+      # Validate commit messages
+      - name: Validate Commit Messages
+        id: commit-check
+        run: |
+          echo "Checking commit messages for compliance..."
+          INVALID_COMMIT=0
+          # Fetch the commit messages
+          git fetch --depth=1 origin ${{ github.event.pull_request.head.ref }}
+          COMMITS=$(git log --pretty=format:"%s" origin/${{ github.event.pull_request.head.ref }})
+          
+          # Check each commit message
+          echo "$COMMITS" | while read -r COMMIT; do
+            if ! [[ "$COMMIT" =~ ^(fix|feat|chore|docs|style|refactor|test|ci|release)\(.+\):\ .+ ]]; then
+              echo "Invalid commit message: $COMMIT"
+              INVALID_COMMIT=1
+            fi
+          done
+
+          if [[ $INVALID_COMMIT -eq 1 ]]; then
+            echo "One or more commit messages do not follow the conventional commit format."
+            exit 1
+          else
+            echo "All commit messages are valid."
+          fi
+
+      # Ensure compliance with release workflow conventions
+      - name: Validate Release Workflow Conventions
+        if: ${{ steps.branch-check.outputs.result == 'success' && steps.commit-check.outputs.result == 'success' }}
+        run: |
+          echo "Checking release workflow conventions..."
+          if [[ "$SOURCE_BRANCH" == release/* ]]; then
+            echo "PR is part of the release workflow. Validating..."
+            # Add additional checks for release workflow here, e.g., checking tags, etc.
+          else
+            echo "This is not a release branch. Skipping release workflow validation."
