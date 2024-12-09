@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/Morethanatester/django-benpavey/compare/v1.3.0...v1.4.0) (2024-12-09)
+
+
+### Features
+
+* **validatePR:** changes cd-prod on push to main, removed conditional statement ([eba8eb7](https://github.com/Morethanatester/django-benpavey/commit/eba8eb7d8b894f85441348b276dcedd8617169e1))
+
 ## [1.3.0](https://github.com/Morethanatester/django-benpavey/compare/v1.2.0...v1.3.0) (2024-12-09)
 
 
