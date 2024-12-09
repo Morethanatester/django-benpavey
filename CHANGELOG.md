@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.0](https://github.com/Morethanatester/django-benpavey/compare/v1.2.0...v1.3.0) (2024-12-09)
+
+
+### Features
+
+* **validate-PR:** added validate-PR and contributing.md file and commented to all workflows ([db0ba27](https://github.com/Morethanatester/django-benpavey/commit/db0ba2741ec49dfc14fda159d6f94aa176c70424))
+* **validate-PR:** debug validate-pr workflow - actions/checkout ([ac19565](https://github.com/Morethanatester/django-benpavey/commit/ac1956522b73089ce63116299a52770fab18cd90))
+
 ## [1.2.0](https://github.com/Morethanatester/django-benpavey/compare/v1.1.1...v1.2.0) (2024-12-04)
 
 
