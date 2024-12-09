@@ -1,4 +1,4 @@
-name: Release Please
+name: Automated Release Workflow
 
 # Summary:
 # This workflow is triggered on push to the main branch.
@@ -16,11 +16,15 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Node
+      - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '14'
@@ -28,6 +32,6 @@ jobs:
       - name: Run release-please
         uses: google-github-actions/release-please-action@v3
         with:
-          release-type: simple       # Define the type (simple is a good start)
-          release-labels: release-please   # Label to trigger the release
+          release-type: simple       # Define the type (simple is a good start for basic projects; other types include node, python, ruby, etc.)
+          release-labels: release-please   # Label used by release-please to trigger the release process
           token: ${{ secrets.GITHUB_TOKEN }} # Required for creating a release
