@@ -230,5 +230,3 @@ The CI/CD pipeline is managed using GitHub Actions and includes the following jo
 Example:
 ```sh
 git commit -m "feat: Add new feature BREAKING CHANGE: This change will break the existing API"
-
-test
