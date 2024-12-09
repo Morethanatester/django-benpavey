@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.4.3](https://github.com/Morethanatester/django-benpavey/compare/v1.4.2...v1.4.3) (2024-12-09)
+
+
+### Bug Fixes
+
+* **CDWrokflow:** naming error on workflow name ([1ebb044](https://github.com/Morethanatester/django-benpavey/commit/1ebb0449bdb0172f2dcf451e1d8f51fe3e35d28b))
+* **CDWrokflow:** naming error on workflow name, and content error ([e61ef3a](https://github.com/Morethanatester/django-benpavey/commit/e61ef3a6f0f38145a03e7176823971dd6959c8c0))
+* **CDWrokflow:** naming error on workflow name, and content error ([e61ef3a](https://github.com/Morethanatester/django-benpavey/commit/e61ef3a6f0f38145a03e7176823971dd6959c8c0))
+* **CDWrokflow:** naming error on workflow name, and content error ([33fef5d](https://github.com/Morethanatester/django-benpavey/commit/33fef5db13781c58accaf6d964421f504ebe1fca))
+
 ## [1.4.2](https://github.com/Morethanatester/django-benpavey/compare/v1.4.1...v1.4.2) (2024-12-09)
 
 
