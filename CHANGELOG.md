@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.1](https://github.com/Morethanatester/django-benpavey/compare/v1.4.0...v1.4.1) (2024-12-09)
+
+
+### Bug Fixes
+
+* **GHACtions:** few bug fixes in cd-prod ([5627dd9](https://github.com/Morethanatester/django-benpavey/commit/5627dd9ef503c9f64055d1c3a3a884eeea0fd98d))
+
 ## [1.4.0](https://github.com/Morethanatester/django-benpavey/compare/v1.3.0...v1.4.0) (2024-12-09)
 
 
