@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.2](https://github.com/Morethanatester/django-benpavey/compare/v1.4.1...v1.4.2) (2024-12-09)
+
+
+### Bug Fixes
+
+* **testing:** deleted test in read me, testing workflow and cd-prod ([a22e9a0](https://github.com/Morethanatester/django-benpavey/commit/a22e9a037b514718e71115b75cbb630950ab5d52))
+
 ## [1.4.1](https://github.com/Morethanatester/django-benpavey/compare/v1.4.0...v1.4.1) (2024-12-09)
 
 
