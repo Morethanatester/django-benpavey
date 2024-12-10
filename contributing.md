@@ -2,24 +2,22 @@
 
 Thank you for considering contributing to our project! To ensure a smooth and consistent workflow, please follow these guidelines.
 
+git checkout main
+
+run script
+
+./tools/sync-branches.sh 
+
+
+
 ## Branching Strategy
 
 - **Main Branch**: The `main` branch is the production-ready branch. Direct commits and pushes to this branch are not allowed.
-- **Development Branch**: The `development` branch is used for ongoing development. Direct commits and pushes to this branch are not allowed.
-- **Feature Branches**: Create feature branches from the `development` branch. Use the naming convention `feature/your-feature-name`.
+- **Development Branch**: The `development` branch is used for staging and integration testing. Direct commits and pushes to this branch are not allowed.
+- **Feature Branches**: Create feature branches from the `main` branch. Use the naming convention `feature/your-feature-name`.
 
-## Pull Requests
+e.g - git checkout -b feature/homepage
 
-- **Source Branch**: Pull requests to the `main` branch are only allowed from `development` branches. Direct PRs from `feature/*` branches to `main` are not allowed.
-- **Commit Messages**: Ensure that all commit messages follow the conventional commit format. Valid commit types include `fix`, `feat`, `chore`, `docs`, `style`, `refactor`, `test`, `ci`, and `release`.
-
-### Example Commit Message
-
-```
-feat(parser): add ability to parse arrays
-```
-
-Ensure that all commit messages follow the conventional commit format. Valid commit types include `fix`, `feat`, `chore`, `docs`, `style`, `refactor`, `test`, `ci`, and `release`.
 
 ## Local Development
 
@@ -109,6 +107,19 @@ Make the hook executable:
 ```bash
 chmod +x .git/hooks/pre-push
 ```
+
+## Pull Requests
+
+- **Source Branch**: Pull requests to the `main` branch are only allowed from `development` branches. Direct PRs from `feature/*` branches to `main` are not allowed.
+- **Commit Messages**: Ensure that all commit messages follow the conventional commit format. Valid commit types include `fix`, `feat`, `chore`, `docs`, `style`, `refactor`, `test`, `ci`, and `release`.
+
+### Example Commit Message
+
+```
+feat(parser): add ability to parse arrays
+```
+
+Ensure that all commit messages follow the conventional commit format. Valid commit types include `fix`, `feat`, `chore`, `docs`, `style`, `refactor`, `test`, `ci`, and `release`.
 
 ## Continuous Integration
 
