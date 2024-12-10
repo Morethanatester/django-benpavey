@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/Morethanatester/django-benpavey/compare/v1.4.3...v1.5.0) (2024-12-10)
+
+
+### Features
+
+* **homepage:** added new homepage for testing workflow ([efbb2d3](https://github.com/Morethanatester/django-benpavey/commit/efbb2d30fc243a62e2485ce8749317ce7687a849))
+
 ## [1.4.3](https://github.com/Morethanatester/django-benpavey/compare/v1.4.2...v1.4.3) (2024-12-09)
 
 
